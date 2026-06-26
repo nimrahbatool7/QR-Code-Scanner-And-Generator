@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primary = Color(0xFF6750A4); // Material 3 primary
-  static const Color secondary = Color(0xFF625B71);
-  static const Color tertiary = Color(0xFF7D5260);
+  // Primary neon cyan
+  static const Color primary = Color(0xFF00F0FF);
+  // Secondary neon purple
+  static const Color secondary = Color(0xFFB026FF);
+  // Deep space background
+  static const Color backgroundDark = Color(0xFF090A0F);
+  // Glass surface background (transparent white for overlay)
+  static const Color glassWhite = Color(0x1AFFFFFF);
+  static const Color glassBorder = Color(0x33FFFFFF);
   
-  static const Color backgroundLight = Color(0xFFFFFBFE);
-  static const Color backgroundDark = Color(0xFF1C1B1F);
+  static const Color textPrimary = Color(0xFFF0F0F0);
+  static const Color textSecondary = Color(0xFF8A8E9A);
   
-  static const Color surfaceLight = Color(0xFFFFFBFE);
-  static const Color surfaceDark = Color(0xFF1C1B1F);
-  
-  static const Color error = Color(0xFFB3261E);
+  static const Color error = Color(0xFFFF2E2E);
 }

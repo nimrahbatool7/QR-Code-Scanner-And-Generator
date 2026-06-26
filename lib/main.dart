@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/core/theme/app_theme.dart';
-import 'package:qr_code_scanner/features/qr_scanner/screens/home_screen.dart';
+import 'package:qr_code_scanner/features/splash/screens/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,10 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'QR Code Scanner',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
+      theme: AppTheme.darkTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
-      home: const HomeScreen(),
+      themeMode: ThemeMode.dark,
+      home: const SplashScreen(),
     );
   }
 }

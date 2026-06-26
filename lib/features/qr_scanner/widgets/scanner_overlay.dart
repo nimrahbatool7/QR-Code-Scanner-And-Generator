@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/core/constants/app_colors.dart';
 
 class ScannerOverlay extends StatelessWidget {
   final Rect scanWindow;
@@ -23,11 +24,11 @@ class ScannerOverlayPainter extends CustomPainter {
     final backgroundPath = Path()..addRect(Rect.fromLTWH(0, 0, size.width, size.height));
     final cutoutPath = Path()
       ..addRRect(
-        RRect.fromRectAndRadius(scanWindow, const Radius.circular(12)),
+        RRect.fromRectAndRadius(scanWindow, const Radius.circular(24)),
       );
 
     final backgroundPaint = Paint()
-      ..color = Colors.black.withAlpha(128)
+      ..color = AppColors.backgroundDark.withOpacity(0.85)
       ..style = PaintingStyle.fill;
 
     final backgroundWithCutout = Path.combine(
@@ -38,31 +39,59 @@ class ScannerOverlayPainter extends CustomPainter {
 
     canvas.drawPath(backgroundWithCutout, backgroundPaint);
 
-    // Draw the borders of the scanner
+    // Draw the glowing borders of the scanner
     final borderPaint = Paint()
-      ..color = Colors.white
+      ..color = AppColors.primary
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 3.0;
+      ..strokeWidth = 4.0;
       
-    final length = 30.0;
+    // Shadow for neon glow effect
+    final shadowPaint = Paint()
+      ..color = AppColors.primary.withOpacity(0.5)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 10.0
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10);
+      
+    final length = 40.0;
+    
+    void drawCorner(Offset p1, Offset p2, Offset p3) {
+      final path = Path()
+        ..moveTo(p2.dx, p2.dy)
+        ..lineTo(p1.dx, p1.dy)
+        ..lineTo(p3.dx, p3.dy);
+      canvas.drawPath(path, shadowPaint);
+      canvas.drawPath(path, borderPaint);
+    }
     
     // Top left
-    canvas.drawLine(scanWindow.topLeft, scanWindow.topLeft.translate(length, 0), borderPaint);
-    canvas.drawLine(scanWindow.topLeft, scanWindow.topLeft.translate(0, length), borderPaint);
+    drawCorner(
+      scanWindow.topLeft,
+      scanWindow.topLeft.translate(length, 0),
+      scanWindow.topLeft.translate(0, length),
+    );
     
     // Top right
-    canvas.drawLine(scanWindow.topRight, scanWindow.topRight.translate(-length, 0), borderPaint);
-    canvas.drawLine(scanWindow.topRight, scanWindow.topRight.translate(0, length), borderPaint);
+    drawCorner(
+      scanWindow.topRight,
+      scanWindow.topRight.translate(-length, 0),
+      scanWindow.topRight.translate(0, length),
+    );
     
     // Bottom left
-    canvas.drawLine(scanWindow.bottomLeft, scanWindow.bottomLeft.translate(length, 0), borderPaint);
-    canvas.drawLine(scanWindow.bottomLeft, scanWindow.bottomLeft.translate(0, -length), borderPaint);
+    drawCorner(
+      scanWindow.bottomLeft,
+      scanWindow.bottomLeft.translate(length, 0),
+      scanWindow.bottomLeft.translate(0, -length),
+    );
     
     // Bottom right
-    canvas.drawLine(scanWindow.bottomRight, scanWindow.bottomRight.translate(-length, 0), borderPaint);
-    canvas.drawLine(scanWindow.bottomRight, scanWindow.bottomRight.translate(0, -length), borderPaint);
+    drawCorner(
+      scanWindow.bottomRight,
+      scanWindow.bottomRight.translate(-length, 0),
+      scanWindow.bottomRight.translate(0, -length),
+    );
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
